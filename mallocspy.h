@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 11:04:48 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 11:17:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@
 # include "ft_printf.h"
 
 /*
-** You may remove these define to change the behaviour of some functions.
-** Having `SPYVERBOSE` defined prints warning when invalid pointers are used.
-** Having `SPYBRAVE` defined causes invalid pointers to be processed like valid
-**  ones.
+** You may set these define to either 0 or 1 to change the behaviour of some fun
+** ctions.
+** `SPYVERBOSE` prints warning when invalid pointers are used.
+** `SPYBRAVE` causes invalid pointers to be processed like valid ones.
 */
 
-# define SPYVERBOSE
-# define SPYBRAVE
+# ifndef SPYVERBOSE
+#  define SPYVERBOSE 1
+# endif
+# ifndef SPYBRAVE
+#  define SPYBRAVE 1
+# endif
 
 /*
 ** Allocates memory, and registers internally.
