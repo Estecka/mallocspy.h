@@ -57,9 +57,12 @@ void	*spyreg(void *pointer);
 ** This has no effect if the pointer is not already registered.
 ** `SPYVERBOSE` prints a warning if the pointer is NULL or not registered.
 ** @param void* pointer The pointer to unregister
+** @return bool
+** 	true  The pointer was unregistered.
+** 	fakse The pointer was not registered to begin with.
 */
 
-void	spyunreg(void *pointer);
+short	spyunreg(void *pointer);
 
 /*
 ** Prints all currently registered adresses.

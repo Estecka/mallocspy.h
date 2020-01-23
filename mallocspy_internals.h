@@ -15,18 +15,13 @@
 
 # include "mallocspy.h"
 
-typedef s_spyptr	t_spyptr;
+typedef struct s_spyptr	t_spyptr;
 struct s_spyptr
 {
 	void	*adress;
 	size_t	size;
 };
 
-t_spyptr	*g_spylist = NULL;
-size_t		g_spysize = 0;
-
-short		spyptrrm(void *pointer);
-short		spyptradd(void *pointer);
-short		spyexpand();
+short		spyexpand(void);
 
 #endif

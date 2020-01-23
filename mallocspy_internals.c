@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mallocspy_internals.c"
+#include "mallocspy_internals.h"
 
 t_spyptr	*g_spylist = NULL;
 size_t		g_spycap = 0;
@@ -48,14 +48,6 @@ short 		spyexpand(void)
 	g_spycap = newcap;
 	return (1);
 }
-
-/*
-** Removes a pointer from the list.
-** @param void* The pointer to remove.
-** @return bool
-** 	true  The pointer was removed.
-** 	false The pointer was not already registered.
-*/
 
 short		spyunreg(void *ptr)
 {
