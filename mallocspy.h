@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 10:53:26 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 11:04:48 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MALLOCSPY_H
 
 # include <stdlib.h>
+# include "ft_printf.h"
 
 /*
 ** You may remove these define to change the behaviour of some functions.

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 10:53:50 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 11:04:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,9 @@ short		spyunreg(void *ptr)
 		}
 		i++;
 	}
+#ifdef SPYVERBOSE
+	ft_printf("Tried to unregister a pointer, \
+but that pointer is unknown : %#p", ptr);
+#endif
 	return (status);
 }
