@@ -6,14 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 11:14:06 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 12:00:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mallocspy_internals.h"
 
-t_spyptr	*g_spylist = NULL;
-size_t		g_spycap = 0;
+void	**g_spylist = NULL;
+size_t	g_spycap = 0;
 
 /*
 ** Initialize or expands the list of pointer.
@@ -23,14 +23,14 @@ size_t		g_spycap = 0;
 ** 	false Allocation failed
 */
 
-short		spyexpand(void)
+short	spyexpand(void)
 {
-	t_spyptr	*newlist;
-	size_t		newcap;
-	size_t		i;
+	void	**newlist;
+	size_t	newcap;
+	size_t	i;
 
 	newcap = g_spycap ? g_spycap * 2 : 32;
-	if (!(newlist = malloc(newcap * sizeof(t_spyptr))))
+	if (!(newlist = malloc(newcap * sizeof(void*))))
 		return (0);
 	i = 0;
 	if (g_spylist)
@@ -43,13 +43,13 @@ short		spyexpand(void)
 		free(g_spylist);
 	}
 	while (i < newcap)
-		newlist[i++] = (t_spyptr){ 0 };
+		newlist[i++] = NULL;
 	g_spylist = newlist;
 	g_spycap = newcap;
 	return (1);
 }
 
-short		spyunreg(void *ptr)
+short	spyunreg(void *ptr)
 {
 	short	status;
 	size_t	i;
@@ -58,15 +58,15 @@ short		spyunreg(void *ptr)
 	i = 0;
 	while (i < g_spycap)
 	{
-		if (g_spylist[i].adress == ptr)
+		if (g_spylist[i] == ptr)
 		{
-			g_spylist[i] = (t_spyptr){ 0 };
+			g_spylist[i] = NULL;
 			status = 1;
 		}
 		i++;
 	}
 	if (SPYVERBOSE && !status)
 		ft_printf("Tried to unregister a pointer, \
-but that pointer is unknown : %#p", ptr);
+but that pointer is unknown : %#p\n", ptr);
 	return (status);
 }
