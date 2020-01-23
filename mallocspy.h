@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 11:17:25 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 13:39:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,16 @@ short	spyunreg(void *pointer);
 
 /*
 ** Prints all currently registered adresses.
+** @return size_t The amount of registered pointers.
 */
 
-void	spylog(void);
+size_t	spylog(void);
 
 /*
 ** Frees and unregister all known pointers.
+** @return size_t The amount of pointers freed.
 */
 
-void	spyflush(void);
+size_t	spyflush(void);
 
 #endif
