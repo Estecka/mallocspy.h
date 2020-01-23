@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 14:12:14 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 15:44:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ size_t	spylog(void)
 			ft_printf("%p\n", g_spylist[i]);
 			count++;
 		}
-	ft_printf("There are %lu pointers still registered.", count);
+	ft_printf("Up to %p pointers were registered simultaneously.\n", g_spycap);
+	ft_printf("There are %lu pointers still registered.\n", count);
 	return (count);
 }
 
