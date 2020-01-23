@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 13:55:03 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 13:58:55 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 14:05:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,19 @@ void	*spymalloc(size_t size)
 		return (NULL);
 	}
 	return (ptr);
+}
+
+void	spyfree(void *ptr)
+{
+	if (!ptr)
+		return ;
+	if (spyunreg(ptr))
+		free(ptr);
+	else if (SPYVERBOSE && SPYBRAVE)
+	{
+		ft_printf("Attempting to free the pointer anyway.\n");
+		free(ptr);
+	}
+	else if (SPYVERBOSE)
+		ft_printf("The pointer was not freed.\n");
 }
