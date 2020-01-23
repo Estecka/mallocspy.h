@@ -27,7 +27,7 @@
 #  define SPYVERBOSE 1
 # endif
 # ifndef SPYBRAVE
-#  define SPYBRAVE 1
+#  define SPYBRAVE 0
 # endif
 
 /*
