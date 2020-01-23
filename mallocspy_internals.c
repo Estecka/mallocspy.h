@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 13:15:39 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 14:12:14 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ short	spyunreg(void *ptr)
 	}
 	if (SPYVERBOSE && !status)
 		ft_printf("Tried to unregister a pointer, \
-but that pointer is unknown : %#p\n", ptr);
+but that pointer is unknown : %p\n", ptr);
 	return (status);
 }
 
@@ -103,7 +103,7 @@ void	*spyreg(void *ptr)
 		g_spylist[i] = ptr;
 	if (SPYVERBOSE && (status & 1 << 1))
 		ft_printf("Tried to register the same pointer multiple times: \
-%#p\n", ptr);
+%p\n", ptr);
 	return (ptr);
 }
 
@@ -117,7 +117,7 @@ size_t	spylog(void)
 	while (++i < g_spycap)
 		if (g_spylist[i] != NULL)
 		{
-			ft_printf("%#p\n");
+			ft_printf("%p\n", g_spylist[i]);
 			count++;
 		}
 	ft_printf("There are %lu pointers still registered.", count);
