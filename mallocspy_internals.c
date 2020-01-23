@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 12:34:17 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 13:07:22 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,23 @@ void	*spyreg(void *ptr)
 	if (!(status & 1 << 0))
 		g_spylist[i] = ptr;
 	if (SPYVERBOSE && (status & 1 << 1))
-		ft_printf("Tried to register the same pointer multiple times: %#p\n", ptr);
+		ft_printf("Tried to register the same pointer multiple times: \
+%#p\n", ptr);
 	return (ptr);
+}
+
+void	spylog(void)
+{
+	size_t	count;
+	size_t	i;
+
+	count = 0;
+	i = -1;
+	while (++i < g_spycap)
+		if (g_spylist[i] != NULL)
+		{
+			ft_printf("%#p\n");
+			count++;
+		}
+	ft_printf("There are %lu pointers still registered.", count);
 }
