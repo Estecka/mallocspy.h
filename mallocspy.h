@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/21 15:41:34 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 10:53:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,15 @@
 
 # include <stdlib.h>
 
-#define SPYVERBOSE
-#define SPYBRAVE
+/*
+** You may remove these define to change the behaviour of some functions.
+** Having `SPYVERBOSE` defined prints warning when invalid pointers are used.
+** Having `SPYBRAVE` defined causes invalid pointers to be processed like valid
+**  ones.
+*/
+
+# define SPYVERBOSE
+# define SPYBRAVE
 
 /*
 ** Allocates memory, and registers internally.
@@ -46,7 +53,7 @@ void	spyfree(void *pointer);
 ** This safely ignores NULL pointers.
 ** `SPYVERBOSE` prints a warning if the pointer is NULL or already registered.
 ** @param void* pointer The pointer to register
-** @return void* The same pointer, or NULL if an error occured. 
+** @return void* The same pointer, or NULL if an error occured.
 */
 
 void	*spyreg(void *pointer);

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/21 15:41:34 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 10:53:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ size_t		g_spycap = 0;
 ** 	false Allocation failed
 */
 
-short 		spyexpand(void)
+short		spyexpand(void)
 {
 	t_spyptr	*newlist;
 	size_t		newcap;
