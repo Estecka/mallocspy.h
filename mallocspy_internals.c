@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:42 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 13:07:22 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/23 13:10:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,4 +121,17 @@ void	spylog(void)
 			count++;
 		}
 	ft_printf("There are %lu pointers still registered.", count);
+}
+
+void	spyflush(void)
+{
+	size_t	i;
+
+	i = -1;
+	while (++i < g_spycap)
+		if (g_spylist[i] != NULL)
+		{
+			free(g_spylist[i]);
+			g_spylist[i] = NULL;
+		}
 }
