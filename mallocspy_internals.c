@@ -48,3 +48,30 @@ short 		spyexpand(void)
 	g_spycap = newcap;
 	return (1);
 }
+
+/*
+** Removes a pointer from the list.
+** @param void* The pointer to remove.
+** @return bool
+** 	true  The pointer was removed.
+** 	false The pointer was not already registered.
+*/
+
+short		spyunreg(void *ptr)
+{
+	short	status;
+	size_t	i;
+
+	status = 0;
+	i = 0;
+	while (i < g_spycap)
+	{
+		if (g_spylist[i].adress == ptr)
+		{
+			g_spylist[i] = (t_spyptr){ 0 };
+			status = 1;
+		}
+		i++;
+	}
+	return (status);
+}
