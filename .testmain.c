@@ -34,7 +34,7 @@ int main(void)
 		printf("Expected 63, got %lu.\n", ul);
 
 	printf("\n\tSpyUnreg :\n");
-	for(int i=0; i<32: i++)
+	for(int i=0; i<32; i++)
 	{
 		b = spyunreg((void*)i);
 		if (!b)
@@ -44,7 +44,7 @@ int main(void)
 	printf("\n\tSpyLog :\n");
 	ul = (int)spylog();
 	if (ul != 32)
-		printf("Expected 32, got %d.\n", (int)r);
+		printf("Expected 32, got %d.\n", (int)ul);
 
 	printf("\n\tSpyReg duplicates : \n");
 	for (int i=32; i<64; i++)
@@ -55,7 +55,7 @@ int main(void)
 	}
 
 	printf("\n\tSpyUnreg duplicates :\n");
-	for(int i=0; i<32: i++)
+	for(int i=0; i<32; i++)
 	{
 		b = spyunreg((void*)i);
 		if (b)
@@ -70,5 +70,5 @@ int main(void)
 	printf("\n\tSpyLog :\n");
 	ul = (int)spylog();
 	if (ul != 0)
-		printf("Expected 0, got %d.\n", (int)r);
+		printf("Expected 0, got %d.\n", (int)ul);
 }
