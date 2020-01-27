@@ -75,7 +75,6 @@ but that pointer is unknown : %p\n", ptr);
 ** @var short status
 ** 	1 << 0 The pointer is registered
 ** 	1 << 1 The pointer was already registered
-** 	1 << 2 Malloc failed
 */
 
 void	*spyreg(void *ptr)
@@ -91,9 +90,9 @@ void	*spyreg(void *ptr)
 			g_spylist[i] = ptr;
 			status |= 1 << 0;
 		}
-		else if (g_spylist == ptr)
+		else if (g_spylist[i] == ptr)
 		{
-			if (!(status & 1 << 0))
+			if ((status & 1 << 0))
 				g_spylist[i] = NULL;
 			status |= 1 << 1 | 1 << 0;
 		}

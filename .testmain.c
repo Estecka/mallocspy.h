@@ -62,6 +62,11 @@ int main(void)
 			printf("[%d] Got %d", i, b);
 	}
 
+	printf("\n\tSpyLog :\n");
+	ul = (int)spylog();
+	if (ul != 32)
+		printf("Expected 32, got %d.\n", (int)ul);
+
 	printf("\n\tSpyFlush : \n");
 	ul = spyflush();
 	if (ul != 32)
