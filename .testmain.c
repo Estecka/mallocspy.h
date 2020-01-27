@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 13:55:03 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/23 14:05:08 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/27 11:51:55 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int main(void)
 	void* p;
 	unsigned long ul;
 	short b;
+	void* mallocs[64];
 
 	printf("\n\tSpyReg :\n");
 	for(int i=0; i<64; i++)
@@ -59,7 +60,39 @@ int main(void)
 	{
 		b = spyunreg((void*)(unsigned long)i);
 		if (b)
-			printf("[%d] Got %d", i, b);
+			printf("[%d] Got %d\n", i, b);
+	}
+
+	printf("\n\tSpyLog :\n");
+	ul = (int)spylog();
+	if (ul != 32)
+		printf("Expected 32, got %d.\n", (int)ul);
+
+	printf("\n\tSpyUnreg :\n");
+	for(int i=32; i<64; i++)
+	{
+		b = spyunreg((void*)(unsigned long)i);
+		if (!b)
+			printf("[%d] Got %d\n", i, b);
+	}
+
+	printf("\n\tSpyMalloc : \n");
+	for (int i=0; i<64; i++)
+	{
+		mallocs[i] = spymalloc(8);
+		if (mallocs[i] == NULL)
+			printf("[%d] Returned NULL\n", i);
+	}
+
+	printf("\n\tSpyLog :\n");
+	ul = (int)spylog();
+	if (ul != 64)
+		printf("Expected 64, got %d.\n", (int)ul);
+
+	printf("\n\tSpyFree : \n");
+	for (int i=0; i<32; i++)
+	{
+		spyfree(mallocs[i]);
 	}
 
 	printf("\n\tSpyLog :\n");
