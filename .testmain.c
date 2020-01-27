@@ -23,8 +23,8 @@ int main(void)
 	printf("\n\tSpyReg :\n");
 	for(int i=0; i<64; i++)
 	{
-		p = spyreg((void*)i);
-		if(p != (void*)i)
+		p = spyreg((void*)(unsigned long)i);
+		if(p != (void*)(unsigned long)i)
 			printf("[%d] Got %p.\n", i, p);
 	}
 
@@ -36,7 +36,7 @@ int main(void)
 	printf("\n\tSpyUnreg :\n");
 	for(int i=0; i<32; i++)
 	{
-		b = spyunreg((void*)i);
+		b = spyunreg((void*)(unsigned long)i);
 		if (!b)
 			printf("[%d] Got %d", i, b);
 	}
@@ -49,15 +49,15 @@ int main(void)
 	printf("\n\tSpyReg duplicates : \n");
 	for (int i=32; i<64; i++)
 	{
-		p = spyreg((void*)i);
-		if (p != (void*)i)
+		p = spyreg((void*)(unsigned long)i);
+		if (p != (void*)(unsigned long)i)
 				printf("[%d] Got : %p.\n", i, p);
 	}
 
 	printf("\n\tSpyUnreg duplicates :\n");
 	for(int i=0; i<32; i++)
 	{
-		b = spyunreg((void*)i);
+		b = spyunreg((void*)(unsigned long)i);
 		if (b)
 			printf("[%d] Got %d", i, b);
 	}
