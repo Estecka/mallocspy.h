@@ -6,11 +6,11 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 13:55:03 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/27 11:51:55 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/27 12:08:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mallocspy_internals.h"
+#include "mallocspy.h"
 
 #include <stdio.h>
 
