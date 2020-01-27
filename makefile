@@ -2,11 +2,10 @@ SRCS	= mallocspy.c mallocspy_internals.c
 OBJS	= ${SRCS:.c=.o}
 
 LIBFTDIR	= ../libft/
-PRINTFDIR= ../ft_printf/
+PRINTFDIR	= ../ft_printf/
 
 NAME	= libmallocspy.a
 TEST	= mallocspytest.out
-CUB		= cub_parser.out
 LIBFT	= ${LIBFTDIR}libft.a
 PRINTF	= ${PRINTFDIR}libftprintf.a
 
@@ -23,7 +22,7 @@ ${NAME}: ${OBJS}
 	ar rcs ${NAME} ${OBJS}
 
 test: ${TEST}
-${TEST}: ${NAME} ${LIBFT} ${PRINTF}
+${TEST}: ./.testmain.c ${NAME} ${LIBFT} ${PRINTF}
 	gcc ./.testmain.c -o ${TEST} ${LIBFLAGS}
 
 
