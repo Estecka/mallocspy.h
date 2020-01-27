@@ -120,8 +120,8 @@ size_t	spylog(void)
 			ft_printf("%p\n", g_spylist[i]);
 			count++;
 		}
-	ft_printf("\nUp to %p pointers were registered simultaneously.\n", g_spycap);
-	ft_printf("There are %u pointers still registered.\n", count);
+	ft_printf("\nUp to %u pointers were registered simultaneously.\n", (unsigned int)g_spycap);
+	ft_printf("There are %u pointers still registered.\n", (unsigned int)count);
 	return (count);
 }
 
