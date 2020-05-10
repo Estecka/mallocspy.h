@@ -144,5 +144,11 @@ extern	size_t	spyflush(void)
 			g_spylist[i] = NULL;
 			count++;
 		}
+	if (g_spycap)
+	{
+		free(g_spylist);
+		g_spylist = NULL;
+		g_spycap = 0;
+	}
 	return (count);
 }
