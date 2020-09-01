@@ -25,17 +25,26 @@ extern void		*spymalloc(void **variable, size_t size)
 	return (*variable);
 }
 
-extern void		spyfree(void **ptr)
+extern short	spyfree(void **ptr)
 {
 	if (spyunreg(ptr))
-		free(*ptr);
+	{
+		if (*ptr)
+		{
+			free(*ptr);
+			*ptr = NULL;
+		}
+		return (1);
+	}
 	else if (ptr && *ptr && SPYVERBOSE && SPYBRAVE)
 	{
 		ft_printf("Attempting to free the pointer anyway.\n");
-		free(ptr);
+		free(*ptr);
+		ptr = NULL;
 	}
 	else if (SPYVERBOSE)
 		ft_printf("The pointer was not freed.\n");
+	return (0);
 }
 
 extern size_t	spyclean(void)

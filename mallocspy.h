@@ -61,14 +61,16 @@ void	*spymalloc(void **variable, size_t size);
 
 /*
 ** Frees a variable that was registered using either `spymalloc` or `spyreg`.
-**
+** 
 ** This safely ignores NULL variables and variables to NULL pointers.
 ** This ignores unregistered variables, unless `SPYBRAVE` is enabled.
 ** `SPYVERBOSE` prints a warning if the variable is not registered or NULL.
 ** @param void** variable	A pointer to the variable that must be freed.
+** @return bool
+** 	true  OK
+** 	false The variable was not registered beforehand.
 */
-
-void	spyfree(void **variable);
+short	spyfree(void **variable);
 
 /*
 ** Registers a variable internally.

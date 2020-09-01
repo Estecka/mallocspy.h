@@ -86,10 +86,22 @@ extern int main(void)
 
 	printf("\nSpyFree (w/ registered)\n");
 	for (int i=0; i<32; i++)
-		spyfree(vars + i);
+	{
+		b = spyfree(vars + i);
+		if (!b)
+			printf("[%i] Expected 1, got %is\n", i, b);
+		if (vars[i] != NULL)
+			printf("[%i] Expected NULL, got %p\n", i, vars[i]);
+	}
 	printf("\nSpyFree (w/ unregistered)\n");
 	for (int i=0; i<32; i++)
+	{
 		spyfree(vars + i);
+		if (!b)
+			printf("[%i] Expected 1, got %is\n", i, b);
+		if (vars[i] != NULL)
+			printf("[%i] Expected NULL, got %p\n", i, vars[i]);
+	}
 
 	TestLog(32);
 
