@@ -21,9 +21,10 @@
 ** nctions.
 ** `SPYVERBOSE` prints warning when invalid pointers are detected.
 ** `SPYBRAVE` causes invalid pointers to be processed like valid ones.
-** `SPYPROXY` causes mallocspy to treat pointers as being "second degree" inste
-** ad of first degree. In other words, you register the adress of a variable th
-** at holds a pointer instead of the pointer itself.
+** `SPYPROXY` (deprecated, now always on) causes mallocspy to treat pointers as
+**  being "second degree" instead of first degree. In other words, you register
+**  the adress of a variable that holds a pointer instead of the pointer itself
+** .
 ** This operating mode is a little more complex to uses, but has a handful of a
 ** dvantages :
 **  - Pointer in registered variables can be changed without interfacing with M
@@ -44,7 +45,7 @@
 # ifndef SPYBRAVE
 #  define SPYBRAVE 0
 # endif
-# ifndef SPYPROXY
+# if SPYPROXY != 1
 #  define SPYPROXY 1
 # endif
 
@@ -61,33 +62,32 @@ void	*spymalloc(size_t size);
 # endif
 
 /*
-** Frees a pointer that was registered using either `spymalloc` or `spyreg`.
+** Frees a variable that was registered using either `spymalloc` or `spyreg`.
 **
-** This safely ignores NULL pointers.
-** `SPYVERBOSE` prints a warning if the pointer is not registered or NULL.
-** `SPYBRAVE` attempts to free even such pointers.
-** @param void** pointer
+** This safely ignores NULL variables and variables to NULL pointers.
+** This ignores unregistered variables, unless `SPYBRAVE` is enabled.
+** `SPYVERBOSE` prints a warning if the variable is not registered or NULL.
+** @param void** variable	A pointer to the variable that must be freed.
 */
 
-void	spyfree(void **pointer);
+void	spyfree(void **variable);
 
 /*
-** Registers a pointer internally.
-** You can use this on pointer that were created without using `spymalloc`.
-** In the end, `spymalloc(size)` is short for `spyreg(malloc(size))`.
-**
-** This safely ignores NULL pointers.
+** Registers a variable internally.
+** You can use this on variables that hold pointers which were not created usin
+** g `spymalloc`.
+** It is safe to use with NULL variables and variables that hold NULL.
 ** `SPYVERBOSE` prints a warning if the pointer is NULL or already registered.
-** @param void* pointer The pointer to register
-** @return void* The same pointer, or NULL if an error occured.
+** @param void* pointer The variable to register
+** @return void* The variable that was registered, or NULL if an error occured.
 */
 
 void	*spyreg(void *pointer);
 
 /*
-** Unregisters a pointer internally.
-** Use this on pointers that were registered, but freed without 'spyfree'.
-** This has no effect if the pointer is not already registered.
+** Unregisters a variable internally.
+** Use this on variable were registered, but freed without 'spyfree'.
+** It is safe to use on variables that were not already registered.
 ** `SPYVERBOSE` prints a warning if the pointer is NULL or not registered.
 ** @param void* pointer The pointer to unregister
 ** @return bool
@@ -98,14 +98,14 @@ void	*spyreg(void *pointer);
 short	spyunreg(void *pointer);
 
 /*
-** Prints all currently registered adresses.
+** Prints all currently registered variable adresses.
 ** @return size_t The amount of registered pointers.
 */
 
 size_t	spylog(void);
 
 /*
-** Frees and unregister all known pointers.
+** Frees and unregister all known variables.
 ** This also frees Mallocspy's internal pointers. These are automatically initi
 ** alized, so it doesn't prevent Mallocspy from working.
 ** @return size_t The amount of pointers freed.
@@ -113,15 +113,11 @@ size_t	spylog(void);
 
 size_t	spyflush(void);
 
-# if SPYPROXY
-
 /*
 ** Unregisters all variables that hold NULL pointers.
 ** @return size_t   The amount of unregistered variables.
 */
 
 size_t	spyclean(void);
-
-# endif
 
 #endif

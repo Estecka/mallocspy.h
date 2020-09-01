@@ -34,8 +34,8 @@ extern void		*spymalloc(size_t size)
 extern void		spyfree(void **ptr)
 {
 	if (spyunreg(ptr))
-		free(SPYPROXY ? *ptr : ptr);
-	else if (ptr && (!SPYPROXY || *ptr) && SPYVERBOSE && SPYBRAVE)
+		free(*ptr);
+	else if (ptr && *ptr && SPYVERBOSE && SPYBRAVE)
 	{
 		ft_printf("Attempting to free the pointer anyway.\n");
 		free(ptr);
@@ -43,8 +43,6 @@ extern void		spyfree(void **ptr)
 	else if (SPYVERBOSE)
 		ft_printf("The pointer was not freed.\n");
 }
-
-#if SPYPROXY
 
 extern size_t	spyclean(void)
 {
@@ -61,5 +59,3 @@ extern size_t	spyclean(void)
 		}
 	return (count);
 }
-
-#endif

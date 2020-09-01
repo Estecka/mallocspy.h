@@ -140,9 +140,8 @@ extern size_t	spyflush(void)
 	while (--i < g_spycap)
 		if (g_spylist[i] != NULL)
 		{
-			free(SPYPROXY ? *g_spylist[i] : g_spylist[i]);
-			if (SPYPROXY)
-				*g_spylist[i] = NULL;
+			free(*g_spylist[i]);
+			*g_spylist[i] = NULL;
 			g_spylist[i] = NULL;
 			count++;
 		}
