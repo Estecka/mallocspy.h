@@ -32,7 +32,7 @@
 **  manually unregistered and re-registered.
 **  - Pointers that are freed then set to NULL without interfacing with Mallocs
 ** py can be automatically detected and unregistered in bulk using `SpyClean`.
-** You must however make sure to unregister such variable before they are thems
+** You must however make sure to unregister such variables before they are them
 ** selves deallocated (heap) or fall out of scope (stack).
 **  - Mallocspy will in most case, never end up obfuscating leaks from tools li
 ** ke Valgrind. (Unless the registered variable also happens to be an allocated
@@ -49,17 +49,16 @@
 #  define SPYPROXY 1
 # endif
 
-# ifndef SPYPROXY
-
 /*
-** Allocates memory, and registers it internally.
+** Allocates memory, and registers the variable that will hold it.
+** @param void** variable	A pointer to the variable that will hold the pointe
+** r.
 ** @param size_t size The amount of bytes to allocate.
-** @return void* A pointer to the memory, or NULL if an error occured.
+** @return void* A pointer to the allocated memory, or NULL if an error occured
+** .
 */
 
-void	*spymalloc(size_t size);
-
-# endif
+void	*spymalloc(void **variable, size_t size);
 
 /*
 ** Frees a variable that was registered using either `spymalloc` or `spyreg`.

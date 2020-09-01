@@ -12,24 +12,18 @@
 
 #include "mallocspy_internals.h"
 
-#ifndef SPYPROXY
-
-extern void		*spymalloc(size_t size)
+extern void		*spymalloc(void **variable, size_t size)
 {
-	void	*ptr;
-
-	ptr = malloc(size);
-	if (!ptr)
+	*variable = malloc(size);
+	if (!*variable)
 		return (NULL);
-	if (!spyreg(ptr))
+	if (!spyreg(variable))
 	{
-		free(ptr);
+		free(*variable);
 		return (NULL);
 	}
-	return (ptr);
+	return (*variable);
 }
-
-#endif
 
 extern void		spyfree(void **ptr)
 {
