@@ -14,107 +14,92 @@
 
 #include <stdio.h>
 
-int main(void)
+static void TestLog(size_t expected)
+{
+	printf("\nSpyLog\n");
+	size_t got = spylog();
+	if (got != expected)
+		printf("Expected %zu, got %lu\n", expected, got);
+}
+
+extern int main(void)
 {
 	void* p;
-	unsigned long ul;
+	unsigned long lu;
 	short b;
-	void* mallocs[64];
+	void* vars[64];
 
-	#if SPYPROXY
+	// Initialize mallocs with dummy pointers.
+	for (int i=0; i<64; i++)
+		vars[i] = (void*)(long)i;
 
-	printf("[WARNING] No tests available for SpyProxy operating mode.\n");
-	return(-1);
-
-	#else
-
-	printf("\n\tSpyReg :\n");
-	for(int i=0; i<64; i++)
-	{
-		p = spyreg((void*)(unsigned long)i);
-		if(p != (void*)(unsigned long)i)
-			printf("[%d] Got %p.\n", i, p);
-	}
-
-	printf("\n\tSpyLog :\n");
-	ul = (int)spylog();
-	if (ul != 63)
-		printf("Expected 63, got %lu.\n", ul);
-
-	printf("\n\tSpyUnreg :\n");
-	for(int i=0; i<32; i++)
-	{
-		b = spyunreg((void*)(unsigned long)i);
-		if (!b)
-			printf("[%d] Got %d", i, b);
-	}
-
-	printf("\n\tSpyLog :\n");
-	ul = (int)spylog();
-	if (ul != 32)
-		printf("Expected 32, got %d.\n", (int)ul);
-
-	printf("\n\tSpyReg duplicates : \n");
-	for (int i=32; i<64; i++)
-	{
-		p = spyreg((void*)(unsigned long)i);
-		if (p != (void*)(unsigned long)i)
-				printf("[%d] Got : %p.\n", i, p);
-	}
-
-	printf("\n\tSpyUnreg duplicates :\n");
-	for(int i=0; i<32; i++)
-	{
-		b = spyunreg((void*)(unsigned long)i);
-		if (b)
-			printf("[%d] Got %d\n", i, b);
-	}
-
-	printf("\n\tSpyLog :\n");
-	ul = (int)spylog();
-	if (ul != 32)
-		printf("Expected 32, got %d.\n", (int)ul);
-
-	printf("\n\tSpyUnreg :\n");
-	for(int i=32; i<64; i++)
-	{
-		b = spyunreg((void*)(unsigned long)i);
-		if (!b)
-			printf("[%d] Got %d\n", i, b);
-	}
-
-	printf("\n\tSpyMalloc : \n");
+	printf("\nSpyReg\n");
 	for (int i=0; i<64; i++)
 	{
-		mallocs[i] = spymalloc(8);
-		if (mallocs[i] == NULL)
-			printf("[%d] Returned NULL\n", i);
+		p = spyreg(vars + i);
+		if (p != (vars + i))
+			printf("[%i] Expected %p, got %p\n", i, vars+i, p);
 	}
+	p = spyreg(NULL);
+	if (p != NULL)
+		printf("[NULL] Got %p\n", p);
 
-	printf("\n\tSpyLog :\n");
-	ul = (int)spylog();
-	if (ul != 64)
-		printf("Expected 64, got %d.\n", (int)ul);
+	TestLog(64);
 
-	printf("\n\tSpyFree : \n");
+	printf("\nSpyClean\n");
+	for (int i=0; i<32; i++)
+		vars[i] = NULL;
+	lu = spyclean();
+	if (lu != 32)
+		printf("Expected 32, got %lu\n", lu);
+
+	TestLog(32);
+
+	printf("\nSpyUnreg (w/ unregistered)\n");
 	for (int i=0; i<32; i++)
 	{
-		spyfree(mallocs[i]);
+		b = spyunreg(vars + i);
+		if (b)
+			printf("[%i] Got %ds\n", i, b);
+	}
+	printf("\nSpyUnreg (w/ registered)\n");
+	for (int i=32; i<64; i++)
+	{
+		b = spyunreg(vars + i);
+		if (!b)
+			printf("[%i] Got %ds\n", i, b);
 	}
 
-	printf("\n\tSpyLog :\n");
-	ul = (int)spylog();
-	if (ul != 32)
-		printf("Expected 32, got %d.\n", (int)ul);
+	TestLog(0);
 
-	printf("\n\tSpyFlush : \n");
-	ul = spyflush();
-	if (ul != 32)
-		printf("Expected 32, got %lu.", ul);
 
-	printf("\n\tSpyLog :\n");
-	ul = (int)spylog();
-	if (ul != 0)
-		printf("Expected 0, got %d.\n", (int)ul);
-	#endif
+
+	printf("\nSpyMalloc\n");
+	for (int i=0; i<64; i++)
+	{
+		p = spymalloc(vars + i, sizeof(int));
+		if (p != vars[i])
+			printf("[%i] Expected %p, got %p\n", i, vars[i], p);
+	}
+
+	TestLog(64);
+
+	printf("\nSpyFree (w/ registered)\n");
+	for (int i=0; i<32; i++)
+		spyfree(vars + i);
+	printf("\nSpyFree (w/ unregistered)\n");
+	for (int i=0; i<32; i++)
+		spyfree(vars + i);
+
+	TestLog(32);
+
+	printf("\nSpyFlush\n");
+	lu = spyflush();
+	if (lu != 32)
+		printf("Expected 32, got %lu\n", lu);
+	for (int i=32; i<64; i++)
+		if (vars[i] != NULL)
+			printf("[%i] Expected NULL, got %p\n", i, vars[i]);
+	
+	TestLog(0);
 }

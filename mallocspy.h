@@ -104,6 +104,7 @@ size_t	spylog(void);
 
 /*
 ** Frees and unregister all known variables.
+** This also sets those variables to NULL.
 ** This also frees Mallocspy's internal pointers. These are automatically initi
 ** alized, so it doesn't prevent Mallocspy from working.
 ** @return size_t The amount of pointers freed.
