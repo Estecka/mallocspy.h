@@ -14,6 +14,7 @@
 # define MALLOCSPY_INTERNALS_H
 
 # include "mallocspy.h"
+# include "ft_printf.h"
 
 void	***g_spylist;
 size_t	g_spycap;

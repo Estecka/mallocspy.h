@@ -1,41 +1,39 @@
-SRCS	= mallocspy.c mallocspy_internals.c 
-OBJS	= ${SRCS:.c=.o}
+HDRS = mallocspy.h mallocspy_internals.h
+SRCS = mallocspy.c mallocspy_internals.c 
+OBJS = ${SRCS:.c=.o}
 
-LIBFTDIR	= ../libft/
-PRINTFDIR	= ../ft_printf/
+TEST_SRCS = .test/main.c
+
+LIBS = \
+	../libft/libft.a \
+	../ft_printf/libftprintf.a \
 
 NAME	= libmallocspy.a
 TEST	= mallocspytest.out
-LIBFT	= ${LIBFTDIR}libft.a
-PRINTF	= ${PRINTFDIR}libftprintf.a
 
-
-CC		= gcc
-CFLAGS	= -Wall -Wextra #-Werror
+CC		= clang
+CFLAGS	= -Wall -Wextra -Werror -I ../ft_printf/
 LIBFLAGS = \
 	-L ./ -lmallocspy \
-	-L ${PRINTFDIR} -lftprintf \
-	-L ${LIBFTDIR} -lft \
+	-L ../ft_printf/ -lftprintf \
+	-L ../libft/ -lft \
 
 
 ${NAME}: ${OBJS}
 	ar rcs ${NAME} ${OBJS}
 
 test: ${TEST}
-${TEST}: .test/main.c ${NAME} ${LIBFT} ${PRINTF}
-	gcc .test/main.c -o ${TEST} ${LIBFLAGS}
+${TEST}: ${NAME} ${TEST_SRCS} ${LIBS}
+	${CC} ${TEST_SRCS} -o ${TEST} ${LIBFLAGS} -Wall -Wextra
 
 
-libft: ${LIBFT}
-${LIBFT}: 
-	make -C libft
+${OBJS}: ${HDRS}
 
-printf: ${PRINTF}
-${PRINTF}:
-	make -C ft_printf
+%.a: ext_makefile
+	make $(@F) -C $(@D)
+
 
 all: ${NAME} ${TEST}
-
 
 clean:
 	rm -f *.o
@@ -47,4 +45,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re libft printf cub
+.PHONY: \
+	all clean fclean re \
+	ext_makefile \
+	test \

@@ -14,7 +14,6 @@
 # define MALLOCSPY_H
 
 # include <stdlib.h>
-# include "ft_printf.h"
 
 /*
 ** You may set these define to either 0 or 1 to change the behaviour of some fu
