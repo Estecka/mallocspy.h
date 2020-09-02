@@ -1,5 +1,9 @@
 HDRS = mallocspy.h mallocspy_internals.h
-SRCS = mallocspy.c mallocspy_internals.c 
+SRCS = \
+	mallocspy.c \
+	mallocspy_internals.c \
+	lvl_overloads.c \
+
 OBJS = ${SRCS:.c=.o}
 
 TEST_SRCS = .test/main.c

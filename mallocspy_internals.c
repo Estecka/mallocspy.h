@@ -84,7 +84,7 @@ but that pointer is unknown : %p\n", ptr);
 ** 	1 << 1 The pointer was already registered
 */
 
-extern void		*spyreg(void *ptr)
+extern void		*spyreglvl(unsigned int level, void *ptr)
 {
 	short	status;
 	size_t	i;
@@ -94,7 +94,7 @@ extern void		*spyreg(void *ptr)
 	while (++i < g_spycap)
 		if (g_spylist[i].ptr == NULL && !(status & 1 << 0))
 		{
-			g_spylist[i] = (t_spyvar){g_spylevel, ptr};
+			g_spylist[i] = (t_spyvar){level, ptr};
 			status |= 1 << 0;
 		}
 		else if (g_spylist[i].ptr == ptr)
@@ -106,7 +106,7 @@ extern void		*spyreg(void *ptr)
 	if (!(status & 1 << 0) && !spyexpand())
 		return (NULL);
 	if (!(status & 1 << 0))
-		g_spylist[i] = (t_spyvar){g_spylevel, ptr};
+		g_spylist[i] = (t_spyvar){level, ptr};
 	if (SPYVERBOSE && (status & 1 << 1))
 		ft_printf("Tried to register the same pointer multiple times: \
 %p\n", ptr);
@@ -132,7 +132,7 @@ extern size_t	spylog(void)
 	return (count);
 }
 
-extern size_t	spyflush(void)
+extern size_t	spyflushlvl(unsigned int level)
 {
 	size_t	i;
 	size_t	count;
@@ -140,18 +140,20 @@ extern size_t	spyflush(void)
 	i = g_spycap;
 	count = 0;
 	while (--i < g_spycap)
-		if (g_spylist[i].ptr != NULL && g_spylist[i].lvl >= g_spylevel)
+		if (g_spylist[i].ptr != NULL && g_spylist[i].lvl >= level)
 		{
 			free(*g_spylist[i].ptr);
 			*g_spylist[i].ptr = NULL;
 			g_spylist[i] = (t_spyvar){0, NULL};
 			count++;
 		}
-	if (g_spycap && !g_spylevel)
+	if (g_spycap && !level)
 	{
 		free(g_spylist);
 		g_spylist = NULL;
 		g_spycap = 0;
 	}
+	else if (level <= g_spylevel)
+		g_spylevel = level - 1;
 	return (count);
 }

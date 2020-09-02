@@ -12,12 +12,12 @@
 
 #include "mallocspy_internals.h"
 
-extern void		*spymalloc(void **variable, size_t size)
+extern void		*spymalloclvl(unsigned int level, void **variable, size_t size)
 {
 	*variable = malloc(size);
 	if (!*variable)
 		return (NULL);
-	if (!spyreg(variable))
+	if (!spyreglvl(level, variable))
 	{
 		free(*variable);
 		return (NULL);
