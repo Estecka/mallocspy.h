@@ -55,9 +55,9 @@ extern size_t	spyclean(void)
 	i = -1;
 	count = 0;
 	while (++i < g_spycap)
-		if (g_spylist[i] && !*g_spylist[i])
+		if (g_spylist[i].ptr && !*g_spylist[i].ptr)
 		{
-			g_spylist[i] = NULL;
+			g_spylist[i] = (t_spyvar){0, NULL};
 			count++;
 		}
 	return (count);

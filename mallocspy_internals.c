@@ -12,8 +12,10 @@
 
 #include "mallocspy_internals.h"
 
-void			***g_spylist = NULL;
+t_spyvar		*g_spylist = NULL;
 size_t			g_spycap = 0;
+
+unsigned int	g_spylevel = 0;
 
 /*
 ** Initialize or expands the list of pointer.
@@ -25,12 +27,12 @@ size_t			g_spycap = 0;
 
 static short	spyexpand(void)
 {
-	void	***newlist;
+	t_spyvar	*newlist;
 	size_t	newcap;
 	size_t	i;
 
 	newcap = g_spycap ? g_spycap * 2 : 32;
-	if (!(newlist = malloc(newcap * sizeof(void*))))
+	if (!(newlist = malloc(newcap * sizeof(t_spyvar))))
 		return (0);
 	i = 0;
 	if (g_spylist)
@@ -43,7 +45,7 @@ static short	spyexpand(void)
 		free(g_spylist);
 	}
 	while (i < newcap)
-		newlist[i++] = NULL;
+		newlist[i++] = (t_spyvar){0, NULL};
 	g_spylist = newlist;
 	g_spycap = newcap;
 	return (1);
@@ -63,9 +65,9 @@ extern short	spyunreg(void *ptr)
 	i = 0;
 	while (i < g_spycap)
 	{
-		if (g_spylist[i] == ptr)
+		if (g_spylist[i].ptr == ptr)
 		{
-			g_spylist[i] = NULL;
+			g_spylist[i] = (t_spyvar){0, NULL};
 			status = 1;
 		}
 		i++;
@@ -90,21 +92,21 @@ extern void		*spyreg(void *ptr)
 	status = 0;
 	i = -1;
 	while (++i < g_spycap)
-		if (g_spylist[i] == NULL && !(status & 1 << 0))
+		if (g_spylist[i].ptr == NULL && !(status & 1 << 0))
 		{
-			g_spylist[i] = ptr;
+			g_spylist[i] = (t_spyvar){g_spylevel, ptr};
 			status |= 1 << 0;
 		}
-		else if (g_spylist[i] == ptr)
+		else if (g_spylist[i].ptr == ptr)
 		{
 			if ((status & 1 << 0))
-				g_spylist[i] = NULL;
+				g_spylist[i] = (t_spyvar){0, NULL};
 			status |= 1 << 1 | 1 << 0;
 		}
 	if (!(status & 1 << 0) && !spyexpand())
 		return (NULL);
 	if (!(status & 1 << 0))
-		g_spylist[i] = ptr;
+		g_spylist[i] = (t_spyvar){g_spylevel, ptr};
 	if (SPYVERBOSE && (status & 1 << 1))
 		ft_printf("Tried to register the same pointer multiple times: \
 %p\n", ptr);
@@ -119,9 +121,9 @@ extern size_t	spylog(void)
 	count = 0;
 	i = -1;
 	while (++i < g_spycap)
-		if (g_spylist[i] != NULL)
+		if (g_spylist[i].ptr != NULL)
 		{
-			ft_printf("%p\n", g_spylist[i]);
+			ft_printf("%p\n", g_spylist[i].ptr);
 			count++;
 		}
 	ft_printf("\nUp to %u pointers were registered simultaneously.\n",
@@ -138,14 +140,14 @@ extern size_t	spyflush(void)
 	i = g_spycap;
 	count = 0;
 	while (--i < g_spycap)
-		if (g_spylist[i] != NULL)
+		if (g_spylist[i].ptr != NULL && g_spylist[i].lvl >= g_spylevel)
 		{
-			free(*g_spylist[i]);
-			*g_spylist[i] = NULL;
-			g_spylist[i] = NULL;
+			free(*g_spylist[i].ptr);
+			*g_spylist[i].ptr = NULL;
+			g_spylist[i] = (t_spyvar){0, NULL};
 			count++;
 		}
-	if (g_spycap)
+	if (g_spycap && !g_spylevel)
 	{
 		free(g_spylist);
 		g_spylist = NULL;
