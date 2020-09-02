@@ -16,7 +16,22 @@
 # include "mallocspy.h"
 # include "ft_printf.h"
 
-void	***g_spylist;
-size_t	g_spycap;
+void			***g_spylist;
+size_t			g_spycap;
+
+unsigned int	g_spylevel;
+
+/*
+** Metadatas about registered variables.
+** @var unsigned int lvl	The depth at which the variable was registered.
+** @var void** ptr	The pointer to the variable that was registered.
+*/
+
+typedef struct s_spyvar	t_spyvar;
+struct			s_spyvar
+{
+	unsigned int	lvl;
+	void			**ptr;
+};
 
 #endif

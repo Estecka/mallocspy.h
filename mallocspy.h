@@ -49,7 +49,8 @@
 # endif
 
 /*
-** Allocates memory, and registers the variable that will hold it.
+** Allocates memory, and registers the variable that will hold it at the curren
+** t level.
 ** @param void** variable	A pointer to the variable that will hold the pointe
 ** r.
 ** @param size_t size The amount of bytes to allocate.
@@ -57,11 +58,27 @@
 ** .
 */
 
-void	*spymalloc(void **variable, size_t size);
+void			*spymalloc(void **variable, size_t size);
+
+/*
+** Allocates memory, and registers the variable that will hold it at the given
+**  level.
+** @param unsigned int level	The level at which the variable will be registe
+** red.
+** 	It is possible, but not recommended, to register variables above the curren
+** t level
+** @param void** variable	A pointer to the variable that will hold the pointe
+** r.
+** @param size_t size The amount of bytes to allocate.
+** @return void* A pointer to the allocated memory, or NULL if an error occured
+** .
+*/
+
+void			*spymalloclvl(unsigned int level, void **variable, size_t size)
+;
 
 /*
 ** Frees a variable that was registered using either `spymalloc` or `spyreg`.
-** 
 ** This safely ignores NULL variables and variables to NULL pointers.
 ** This ignores unregistered variables, unless `SPYBRAVE` is enabled.
 ** `SPYVERBOSE` prints a warning if the variable is not registered or NULL.
@@ -70,10 +87,10 @@ void	*spymalloc(void **variable, size_t size);
 ** 	true  OK
 ** 	false The variable was not registered beforehand.
 */
-short	spyfree(void **variable);
+short			spyfree(void **variable);
 
 /*
-** Registers a variable internally.
+** Registers a variable at the current level.
 ** You can use this on variables that hold pointers which were not created usin
 ** g `spymalloc`.
 ** It is safe to use with NULL variables and variables that hold NULL.
@@ -82,7 +99,21 @@ short	spyfree(void **variable);
 ** @return void* The variable that was registered, or NULL if an error occured.
 */
 
-void	*spyreg(void *pointer);
+void			*spyreg(void *pointer);
+
+/*
+** Registers a variable at the given level.
+** You can use this on variables that hold pointers which were not created usin
+** g `spymalloc`.
+** It is safe to use with NULL variables and variables that hold NULL.
+** `SPYVERBOSE` prints a warning if the pointer is NULL or already registered.
+** @param unsigned int level	The level at which the variable will be registe
+** red.
+** @param void* pointer The variable to register
+** @return void* The variable that was registered, or NULL if an error occured.
+*/
+
+void			*spyreglvl(unsigned int level, void *pointer);
 
 /*
 ** Unregisters a variable internally.
@@ -95,30 +126,62 @@ void	*spyreg(void *pointer);
 ** 	false The pointer was not registered to begin with.
 */
 
-short	spyunreg(void *pointer);
+short			spyunreg(void *pointer);
 
 /*
 ** Prints all currently registered variable adresses.
 ** @return size_t The amount of registered pointers.
 */
 
-size_t	spylog(void);
+size_t			spylog(void);
 
 /*
-** Frees and unregister all known variables.
-** This also sets those variables to NULL.
-** This also frees Mallocspy's internal pointers. These are automatically initi
-** alized, so it doesn't prevent Mallocspy from working.
+** @return unsigned int	The current spy level, used as default by methods overl
+** oads that don't use a `level` argument.
+*/
+
+unsigned int	spylevel(void);
+
+/*
+** Increases the spy level by one.
+** @return unsigned int	The new current spy level.
+*/
+
+unsigned int	spymount(void);
+
+/*
+** Frees and unregister all known variables at the current level and above, the
+** n decrease the spy level by one.
+** Flushed variables are also set to NULL.
+** At level 0, the spy level doesn't go down, and Mallocspy's internal pointers
+**  are freed as well. These are automatically initialized, so it doesn't preve
+** nt Mallocspy from working.
 ** @return size_t The amount of pointers freed.
 */
 
-size_t	spyflush(void);
+size_t			spyflush(void);
+
+/*
+** Frees and unregister all known variables at the given level and above, then
+** decrease the spy level to below that.
+** Flushed variables are also set to NULL.
+** At level 0, the spy level doesn't go down, and Mallocspy's internal pointers
+**  are freed as well. These are automatically initialized, so it doesn't preve
+** nt Mallocspy from working.
+** @param unsigned int level	The level to be flushed.
+** 	The current level won't go up if the provided level is greater, but it will
+** still seek for variables to flush.
+** @return size_t The amount of pointers freed.
+*/
+
+size_t			spyflushlvl(unsigned int level);
 
 /*
 ** Unregisters all variables that hold NULL pointers.
+** This affects all levels.
 ** @return size_t   The amount of unregistered variables.
 */
 
-size_t	spyclean(void);
+size_t			spyclean(void);
 
 #endif
