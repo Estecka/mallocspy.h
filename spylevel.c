@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lvl_overloads.c                                    :+:      :+:    :+:   */
+/*   spylevel.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/02 19:29:00 by abaur             #+#    #+#             */
-/*   Updated: 2020/09/02 19:29:00 by abaur            ###   ########.fr       */
+/*   Created: 2020/09/02 19:47:00 by abaur             #+#    #+#             */
+/*   Updated: 2020/09/02 19:47:00 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mallocspy_internals.h"
 
-extern void		*spymalloc(void **variable, size_t size)
+extern unsigned int	spylevel(void)
 {
-	return (spymalloclvl(g_spylevel, variable, size));
+	return (g_spylevel);
 }
 
-extern void		*spyreg(void *ptr)
+extern unsigned int	spymount(void)
 {
-	return (spyreglvl(g_spylevel, ptr));
-}
-
-extern size_t	spyflush(void)
-{
-	return (spyflushlvl(g_spylevel));
+	return (++g_spylevel);
 }

@@ -20,10 +20,10 @@
 ** nctions.
 ** `SPYVERBOSE` prints warning when invalid pointers are detected.
 ** `SPYBRAVE` causes invalid pointers to be processed like valid ones.
-** `SPYPROXY` (deprecated, now always on) causes mallocspy to treat pointers as
-**  being "second degree" instead of first degree. In other words, you register
-**  the adress of a variable that holds a pointer instead of the pointer itself
-** .
+** `SPYPROXY` (deprecated, now only behaviour) causes mallocspy to treat pointe
+** rs asbeing "second degree" instead of first degree. In other words, you regi
+** ster the adress of a variable that holds a pointer instead of the pointer it
+** self.
 ** This operating mode is a little more complex to uses, but has a handful of a
 ** dvantages :
 **  - Pointer in registered variables can be changed without interfacing with M
@@ -43,9 +43,6 @@
 # endif
 # ifndef SPYBRAVE
 #  define SPYBRAVE 0
-# endif
-# if SPYPROXY != 1
-#  define SPYPROXY 1
 # endif
 
 /*

@@ -28,8 +28,8 @@ unsigned int	g_spylevel = 0;
 static short	spyexpand(void)
 {
 	t_spyvar	*newlist;
-	size_t	newcap;
-	size_t	i;
+	size_t		newcap;
+	size_t		i;
 
 	newcap = g_spycap ? g_spycap * 2 : 32;
 	if (!(newlist = malloc(newcap * sizeof(t_spyvar))))

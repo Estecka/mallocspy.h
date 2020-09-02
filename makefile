@@ -2,6 +2,7 @@ HDRS = mallocspy.h mallocspy_internals.h
 SRCS = \
 	mallocspy.c \
 	mallocspy_internals.c \
+	spylevel.c \
 	lvl_overloads.c \
 
 OBJS = ${SRCS:.c=.o}
