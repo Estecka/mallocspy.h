@@ -38,12 +38,12 @@ extern short	spyfree(void **ptr)
 	}
 	else if (ptr && *ptr && SPYVERBOSE && SPYBRAVE)
 	{
-		ft_printf("Attempting to free the pointer anyway.\n");
+		(*g_printf)("Attempting to free the pointer anyway.\n");
 		free(*ptr);
 		ptr = NULL;
 	}
 	else if (SPYVERBOSE)
-		ft_printf("The pointer was not freed.\n");
+		(*g_printf)("The pointer was not freed.\n");
 	return (0);
 }
 

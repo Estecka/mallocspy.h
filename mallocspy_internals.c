@@ -58,7 +58,7 @@ extern short	spyunreg(void *ptr)
 
 	if (!ptr)
 	{
-		ft_printf("Tried to unregister a NULL pointer.\n");
+		(*g_printf)("Tried to unregister a NULL pointer.\n");
 		return (0);
 	}
 	status = 0;
@@ -73,7 +73,7 @@ extern short	spyunreg(void *ptr)
 		i++;
 	}
 	if (SPYVERBOSE && !status)
-		ft_printf("Tried to unregister a pointer, \
+		(*g_printf)("Tried to unregister a pointer, \
 but that pointer is unknown : %p\n", ptr);
 	return (status);
 }
@@ -108,7 +108,7 @@ extern void		*spyreglvl(unsigned int level, void *ptr)
 	if (!(status & 1 << 0))
 		g_spylist[i] = (t_spyvar){level, ptr};
 	if (SPYVERBOSE && (status & 1 << 1))
-		ft_printf("Tried to register the same pointer multiple times: \
+		(*g_printf)("Tried to register the same pointer multiple times: \
 %p\n", ptr);
 	return (ptr);
 }
@@ -123,12 +123,13 @@ extern size_t	spylog(void)
 	while (++i < g_spycap)
 		if (g_spylist[i].ptr != NULL)
 		{
-			ft_printf("%p\n", g_spylist[i].ptr);
+			(*g_printf)("%p\n", g_spylist[i].ptr);
 			count++;
 		}
-	ft_printf("\nUp to %u pointers were registered simultaneously.\n",
+	(*g_printf)("\nUp to %u pointers were registered simultaneously.\n",
 		(unsigned int)g_spycap);
-	ft_printf("There are %u pointers still registered.\n", (unsigned int)count);
+	(*g_printf)("There are %u pointers still registered.\n",
+		(unsigned int)count);
 	return (count);
 }
 

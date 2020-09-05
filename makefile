@@ -4,24 +4,21 @@ SRCS = \
 	mallocspy_internals.c \
 	spylevel.c \
 	lvl_overloads.c \
+	g_printf.c \
 
 OBJS = ${SRCS:.c=.o}
 
 TEST_SRCS = .test/main.c
 
 LIBS = \
-	../libft/libft.a \
-	../ft_printf/libftprintf.a \
 
 NAME	= libmallocspy.a
 TEST	= mallocspytest.out
 
 CC		= clang
-CFLAGS	= -Wall -Wextra -Werror -I ../ft_printf/
+CFLAGS	= -Wall -Wextra -Werror
 LIBFLAGS = \
 	-L ./ -lmallocspy \
-	-L ../ft_printf/ -lftprintf \
-	-L ../libft/ -lft \
 
 
 ${NAME}: ${OBJS}

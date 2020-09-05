@@ -14,7 +14,11 @@
 # define MALLOCSPY_INTERNALS_H
 
 # include "mallocspy.h"
-# include "ft_printf.h"
+
+/*
+** A pointer to the printf function to use for logging, if allowed.
+*/
+int				(*g_printf)(const char*, ...);
 
 /*
 ** Metadatas about registered variables.
