@@ -1,22 +1,22 @@
 HDRS = mallocspy.h mallocspy_internals.h
-SRCS = mallocspy.c mallocspy_internals.c 
+SRCS = \
+	mallocspy.c \
+	mallocspy_internals.c \
+	g_printf.c \
+
 OBJS = ${SRCS:.c=.o}
 
 TEST_SRCS = .test/main.c
 
 LIBS = \
-	../libft/libft.a \
-	../ft_printf/libftprintf.a \
 
 NAME	= libmallocspy.a
 TEST	= mallocspytest.out
 
 CC		= clang
-CFLAGS	= -Wall -Wextra -Werror -I ../ft_printf/
+CFLAGS	= -Wall -Wextra -Werror
 LIBFLAGS = \
 	-L ./ -lmallocspy \
-	-L ../ft_printf/ -lftprintf \
-	-L ../libft/ -lft \
 
 
 ${NAME}: ${OBJS}
